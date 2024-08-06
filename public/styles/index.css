@@ -1,68 +1,74 @@
 * {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-	background: linear-gradient(50deg, orange, purple);
-	background-size: cover;
-	background-attachment: fixed;
+    background: linear-gradient(50deg, orange, purple);
+    background-size: cover;
+    background-attachment: fixed;
 }
 
 .content {
-	height: 100vh;
-	display: flex;
-	flex-flow: column;
-	align-items: center;
-	justify-content: space-between;
+    height: 100vh;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .content .top {
-	height: 100%;
-	padding: 0 20px;
-	display: flex;
-	flex-flow: column;
-	gap: 30px;
+    height: 80%;
+    padding: 0 20px;
+    display: flex;
+    flex-flow: column;
+    gap: 30px;
 }
+
 .content .top img {
-	width: 70%;
-	margin: 0 auto;
+    width: 70%;
+    max-height: 60%;
+    margin: 0 auto;
 }
+
 .content .top h2 {
-	margin-top: 80px;
-	line-height: 1.4;
-	color: whitesmoke;
-	font-size: 1.6rem;
-	text-align: center;
-	text-shadow: 2px 2px 2px blue;
+    margin-top: 80px;
+    line-height: 1.4;
+    color: whitesmoke;
+    font-size: 1.6rem;
+    text-align: center;
+    text-shadow: 2px 2px 2px blue;
 }
 
 .content .btns {
-	gap: 20px;
-	width: 90%;
-	display: flex;
-	margin-bottom: 70px;
-	justify-content: center;
+    gap: 20px;
+    width: 90%;
+    display: flex;
+    margin-bottom: 70px;
+    justify-content: center;
 }
+
 .content .btns a {
-	width: 100%;
-	max-width: 250px;
+    width: 100%;
+    max-width: 250px;
 }
+
 .content .btns a button {
-	color: white;
-	border: none;
-	width: 100%;
-	padding: 18px 25px;
-	border-radius: 10px;
-	font-weight: bold;
-	text-transform: uppercase;
-	background-color: #1a6dc9;
-	box-shadow: inset 0px 0px 10px 2px whitesmoke;
-	transition: all 0.1s ease-in-out;
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 18px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #1a6dc9;
+    box-shadow: inset 0px 0px 10px 2px whitesmoke;
+    transition: all 0.1s ease-in-out;
 }
+
 .content .btns a button:hover {
-	color: #1a6dc9;
-	user-select: none;
-	background: whitesmoke;
-	box-shadow: 0px 0px 10px 2px whitesmoke;
+    color: #1a6dc9;
+    user-select: none;
+    background: whitesmoke;
+    box-shadow: 0px 0px 10px 2px whitesmoke;
 }

@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 
 <?php
-use PhpSlides\Http\Request;
-
-$request = new Request();
-
 $oldEmail = $oldPwd = $errMsg = '';
-if ($request->get('q') !== null) {
-	$query = $request->get('q');
+
+if (isset($_SESSION['__uid'])) {
+   header('Location: /index');
+}
+
+if (isset($_SESSION['_query_token'])) {
+	$query = $_SESSION['_query_token'];
 	$query = unserialize(base64_decode($query));
 
 	$oldEmail = $query['email'];
 	$oldPwd = $query['password'];
 	$errMsg = $query['err'];
+
+	unset($_SESSION['_query_token']);
 }
 ?>
 

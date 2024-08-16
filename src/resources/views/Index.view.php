@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<?php session_start(); ?>
+
 <html>
 
 <head>
@@ -18,8 +20,18 @@
          </div>
 
          <div class="btns">
-            <a href="<? route('login') ?>"><button>Login</button></a>
-            <a href="<? route('register') ?>"><button>Register</button></a>
+            <?php if (isset($_SESSION['__uid'])): ?>
+               <a href="<? route('') ?>">
+                  <button>Dashboard</button>
+               </a>
+            <?php else: ?>
+               <a href="<? route('login') ?>">
+                  <button>Login</button>
+               </a>
+               <a href="<? route('register') ?>">
+                  <button>Register</button>
+               </a>
+            <?php endif; ?>
          </div>
       </div>
    </div>

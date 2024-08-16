@@ -12,9 +12,8 @@ final class FormAuthController extends Controller
 	/**
 	 * Handle Form Validation
 	 */
-	public function index()
+	private function index()
 	{
-		session_start();
 		$request = new Request();
 
 		$data['email'] = $request->post('email');
@@ -28,7 +27,7 @@ final class FormAuthController extends Controller
 		}
 
 		$this->dataError($data);
-		return (object) $data;
+		return $data;
 	}
 
 	/**
@@ -40,7 +39,28 @@ final class FormAuthController extends Controller
 		$data = $this->index();
 		$db = new DatabaseController();
 
-		return $db;
+		/* Get the user information */
+		$user = $db->select(
+			table: 'users',
+			where: "email='{$data['email']}'",
+			columns: 'user_id, email, password'
+		);
+
+		if (empty($user)) {
+			$data['err'] = 'No user with this Email!';
+			$this->dataError($data);
+		}
+
+		$user = $user[0];
+		$pwd_verify = password_verify($data['password'], $user['password']);
+
+		if (!$pwd_verify) {
+			$data['err'] = 'Incorrect Password!';
+			$this->dataError($data);
+		}
+
+		$_SESSION['__uid'] = $user['user_id'];
+		header('Location: /index');
 	}
 
 	/**
@@ -55,11 +75,11 @@ final class FormAuthController extends Controller
 		$data = $this->index();
 		$db = new DatabaseController();
 
-/* Check if email is already existed */
+		/* Check if email is already existed */
 		$user = $db->select(
 			table: 'users',
 			columns: 'email',
-			where: "email='{$data->email}'"
+			where: "email='{$data['email']}'"
 		);
 
 		if (!empty($user)) {
@@ -67,14 +87,34 @@ final class FormAuthController extends Controller
 			$this->dataError($data);
 		}
 
-		return $user;
+		/* Generate a random user_id */
+		$id = mt_rand(1111111111, 9999999999);
+		$id .= mt_rand(1111111111, 9999999999);
+
+		$data['user_id'] = (int) $id;
+		$data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+		/* Insert the user information to the database */
+		$res = $db->insert(table: 'users', data: $data);
+
+		/* If the information is'nt processed in the database */
+		if (!$res) {
+			$data['err'] = 'There was an error processing the request!';
+			$this->dataError($data);
+		}
+
+		/* If registered successful! */
+		$_SESSION['__uid'] = $id;
+		header('Location: /index');
 	}
 
 	private function dataError(array $data)
 	{
 		if (isset($data['err'])) {
 			$query = base64_encode(serialize($data));
-			header("Location: {$this->url}?q=$query");
+			$_SESSION['_query_token'] = $query;
+
+			header("Location: {$this->url}");
 			exit();
 		}
 	}
